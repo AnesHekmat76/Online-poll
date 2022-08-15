@@ -4,39 +4,27 @@ import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import { Button } from "@mui/material";
 import { useState } from "react";
+import Tooltip from "@mui/material/Tooltip";
 
 const PollDetailsPage = () => {
   const [nameInputValue, setNameInputValue] = useState("");
   const [isNameInputInvalid, setIsNameInputInvalid] = useState(false);
-
-  const [selectedOptions, setSelectedOptions] = useState([
-    {
-      id: 1,
-      isSelected: false,
-    },
-    {
-      id: 2,
-      isSelected: false,
-    },
-    {
-      id: 3,
-      isSelected: false,
-    },
-  ]);
-  //You should update selectedOptions state after getting poll details response.
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   const onCheckBoxClick = (event) => {
-    const changedOptionId = +event.target.value;
+    const selectedOptionId = +event.target.value;
     const checkBoxValue = event.target.checked;
     setSelectedOptions((state) => {
-      const clonedState = [...state];
-      const selectedOptionIndex = clonedState.findIndex((option) => {
-        return option.id === changedOptionId;
-      });
-      const clonedSelectedOption = { ...clonedState[selectedOptionIndex] };
-      clonedSelectedOption.isSelected = checkBoxValue;
-      clonedState[selectedOptionIndex] = clonedSelectedOption;
-      return clonedState;
+      let updatedState = [];
+      if (checkBoxValue) {
+        if (state.includes(selectedOptionId)) return state;
+        return [...state, selectedOptionId];
+      } else {
+        updatedState = state.filter((optionId) => {
+          return optionId !== selectedOptionId;
+        });
+        return updatedState;
+      }
     });
   };
 
@@ -77,82 +65,41 @@ const PollDetailsPage = () => {
       {
         id: 1,
         name: "ali",
-        choices: [
-          {
-            optionId: 1,
-            optionText: "kebab",
-            isSelected: true,
-          },
-          {
-            optionId: 2,
-            optionText: "sandwich",
-            isSelected: false,
-          },
-          {
-            optionId: 3,
-            optionText: "pizza peperoni",
-            isSelected: true,
-          },
-        ],
+        selectedOptionsId: [1, 3],
       },
       {
         id: 2,
         name: "mamad",
-        choices: [
-          {
-            optionId: 1,
-            optionText: "kebab",
-            isSelected: false,
-          },
-          {
-            optionId: 2,
-            optionText: "sandwich",
-            isSelected: false,
-          },
-          {
-            optionId: 3,
-            optionText: "pizza peperoni",
-            isSelected: true,
-          },
-        ],
+        selectedOptionsId: [3],
       },
       {
         id: 3,
         name: "hashem",
-        choices: [
-          {
-            optionId: 1,
-            optionText: "kebab",
-            isSelected: true,
-          },
-          {
-            optionId: 2,
-            optionText: "sandwich",
-            isSelected: true,
-          },
-          {
-            optionId: 3,
-            optionText: "pizza peperoni",
-            isSelected: true,
-          },
-        ],
+        selectedOptionsId: [1, 2, 3],
       },
     ],
   };
 
   const tableHeader = pollDetails.options.map((option) => {
+    let limitedTextLength = option.text;
+    if (option.text.trim().length > 10) {
+      limitedTextLength = option.text.trim().substring(0, 10) + "..";
+    }
+
     return (
-      <th key={option.id} className="text-center">
-        <div className="px-4 py-3 m-0.5 bg-gray-200 rounded-md text-gray-700">
-          <p>{option.text}</p>
-        </div>
-      </th>
+      <Tooltip key={option.id} placement="top" title={option.text}>
+        <th className="text-center">
+          <div className="px-4 py-3 m-0.5 bg-gray-200 rounded-md text-gray-700">
+            <p>{limitedTextLength}</p>
+          </div>
+        </th>
+      </Tooltip>
     );
   });
 
   const tableBody = pollDetails.participants.map((participant, index) => {
-    const rowCells = participant.choices.map((choice, index) => {
-      if (choice.isSelected) {
+    const rowCells = pollDetails.options.map((option, index) => {
+      if (participant.selectedOptionsId.includes(option.id)) {
         return (
           <td key={index} className="text-center text-gray-700">
             <div className="m-0.5 py-2 bg-green-200 rounded-md">

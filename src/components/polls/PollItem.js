@@ -5,6 +5,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import { Link } from "react-router-dom";
 import { alertAction } from "../../store/alert-slice";
 import { useDispatch } from "react-redux";
+import Tooltip from "@mui/material/Tooltip";
 
 const PollItem = ({
   showDeleteModal,
@@ -30,7 +31,6 @@ const PollItem = ({
   return (
     <div className="border-b border-gray-300 py-3 lg:py-4 px-1">
       <div className="flex justify-between">
-        {/* this tag must be a link for a poll page: with dinamic path */}
         <Link
           to={`../pollDetails/${link}`}
           className="text-xl font-semibold text-gray-700 cursor-pointer hover:text-blue-600"
@@ -39,10 +39,9 @@ const PollItem = ({
         </Link>
         <div>
           <button onClick={onShareIconClick}>
-            <ShareIcon
-              titleAccess="Copy poll link"
-              className="text-gray-500 hover:text-gray-600"
-            />
+            <Tooltip placement="top" title="Copy poll link">
+              <ShareIcon className="text-gray-500 hover:text-gray-600" />
+            </Tooltip>
           </button>
           <button
             onClick={() => {
@@ -51,10 +50,9 @@ const PollItem = ({
             }}
             className="mx-3 lg:mx-5"
           >
-            <EditIcon
-              titleAccess="Edit poll"
-              className="text-gray-500 hover:text-gray-600"
-            />
+            <Tooltip placement="top" title="Edit poll">
+              <EditIcon className="text-gray-500 hover:text-gray-600" />
+            </Tooltip>
           </button>
           <button
             onClick={() => {
@@ -62,10 +60,9 @@ const PollItem = ({
               showDeleteModal();
             }}
           >
-            <DeleteIcon
-              titleAccess="Delete poll"
-              className="text-gray-500 hover:text-gray-600"
-            />
+            <Tooltip placement="top" title="Delete poll">
+              <DeleteIcon className="text-gray-500 hover:text-gray-600" />
+            </Tooltip>
           </button>
         </div>
       </div>
