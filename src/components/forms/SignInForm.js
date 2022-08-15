@@ -28,7 +28,49 @@ const SignInForm = () => {
       }
       return;
     }
-    navigate("../pollList");
+
+    // const reqBody = {
+    //   title: "Breakfast",
+    //   description: "What should we eat for breakfast",
+    // };
+
+    // const token =
+    //   "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBbmVzIiwiaWF0IjoxNjYwNTcyOTYzLCJleHAiOjE2NjA2NTkzNjN9.jdGplipKm1IeQpbFCgI4liL2bZeKUoVaVY-ty44BiZLvORr8c3FA4rgy7Q8XYcqJSHgVTBidbqh_a9KlmIhKsg";
+
+    // fetch(`http://localhost:8080/poll/edit/GI3oKI1kZj`, {
+    //   mode: "no-cors",
+    //   method: "PUT",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: token + process.env.API_TOKEN,
+    //   },
+    //   body: JSON.stringify(reqBody),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
+
+    // fetch(`http://localhost:8080/poll/find-by-link/GI3oKI1kZj`)
+    //   .then((res) => res.json())
+    //   .then((data) => console.log(data));
+
+    // fetch(
+    //   `http://localhost:8080/user/signing?username=${userNameValue}&password=${passwordValue}`,
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   }
+    // )
+    //   .then((res) => res.json())
+    //   .then((data) => console.log(data));
+
+    // navigate("../pollList");
   };
 
   return (

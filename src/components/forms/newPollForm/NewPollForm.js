@@ -53,6 +53,9 @@ const NewPollForm = () => {
       return;
     }
     console.log("submitted");
+    // const res = options.map((option) => {
+    //   return { optionName: option.text };
+    // });
     const pollLink = "1";
     navigate(`../pollLink/${pollLink}`);
     //send a request and if was success full redirect to poll link page
