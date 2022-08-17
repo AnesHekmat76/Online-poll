@@ -13,9 +13,6 @@ const Modal = ({ handleYes, hideModal }) => {
   const title = modalState.title;
   const content = modalState.content;
   const isOpen = modalState.isOpen;
-  //   const handleClose = () => {
-  //     setOpen(false);
-  //   };
 
   return (
     <Dialog

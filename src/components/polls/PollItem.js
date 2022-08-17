@@ -14,12 +14,12 @@ const PollItem = ({
   setSelectedPollForEdit,
   setSelectedPollForDelete,
 }) => {
-  const { title, description, numberOfParticipant, link } = poll;
+  const { title, description, participants, link } = poll;
 
   const dispatch = useDispatch();
 
   const onShareIconClick = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/poll/${link}`);
+    navigator.clipboard.writeText(`http://localhost:3000/pollDetails/${link}`);
     dispatch(
       alertAction.showAlert({
         message: "Poll link copied to clipboard",
@@ -70,7 +70,9 @@ const PollItem = ({
       <p className="mt-2 text-gray-500">{description} </p>
       <div className="mt-2 flex items-center">
         <PeopleIcon className="text-gray-500" />
-        <p className="ml-2 text-gray-500">{numberOfParticipant}</p>
+        <p className="ml-2 text-gray-500">
+          {participants ? participants.length : 0}
+        </p>
       </div>
     </div>
   );

@@ -10,12 +10,13 @@ import EditPollPage from "./pages/EditPollPage";
 import PollLingPage from "./pages/PollLinkPage";
 import BasicAlert from "./components/UI/Alert";
 import PollDetailsPage from "./pages/PollDetailsPage";
+import "../src/App.css";
 
 const App = () => {
   return (
     <>
       <Navigation />
-      <main className="">
+      <main className="min-h-40">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signIn" element={<SignInPage />} />

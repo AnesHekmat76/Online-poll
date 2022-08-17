@@ -2,10 +2,20 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import OptionList from "./OptionsList";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { BASED_URL } from "../../../constants";
+import { useDispatch } from "react-redux";
+import { alertAction } from "../../../store/alert-slice";
+import { Tooltip } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { useSelector } from "react-redux";
+import { authAction } from "../../../store/auth-slice";
+import { pollLinkAction } from "../../../store/pollLink-slice";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const NewPollForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [options, setOptions] = useState([]);
   const [optionInput, setOptionInput] = useState("");
   const [isOptionInputInValid, setIsOptionInputInValid] = useState(false);
@@ -15,6 +25,10 @@ const NewPollForm = () => {
   const [isDescriptionInputInvalid, setIsDescriptionInputInvalid] =
     useState(false);
   const [isOptionsInvalid, setIsOptionsInvalid] = useState(false);
+  const [titleHelperText, setTitleHelperText] = useState(" ");
+  const [descriptionHelperText, setDescriptionHelperText] = useState(" ");
+  const [isLoading, setIsLoading] = useState(false);
+  const token = useSelector((state) => state.auth.token);
 
   const deleteOption = (id) => {
     setOptions((options) => {
@@ -46,19 +60,71 @@ const NewPollForm = () => {
       descriptionInput.trim().length === 0 ||
       options.length === 0
     ) {
-      if (titleInput.trim().length === 0) setIsTitleInputInValid(true);
-      if (descriptionInput.trim().length === 0)
+      if (titleInput.trim().length === 0) {
+        setTitleHelperText("Can not be empty");
+        setIsTitleInputInValid(true);
+      }
+
+      if (descriptionInput.trim().length === 0) {
+        setDescriptionHelperText("Can not be empty");
         setIsDescriptionInputInvalid(true);
+      }
+
       if (options.length === 0) setIsOptionsInvalid(true);
       return;
     }
-    console.log("submitted");
-    // const res = options.map((option) => {
-    //   return { optionName: option.text };
-    // });
-    const pollLink = "1";
-    navigate(`../pollLink/${pollLink}`);
-    //send a request and if was success full redirect to poll link page
+
+    const optionsArr = options.map((option) => {
+      return { optionName: option.text };
+    });
+
+    const createPoll = async () => {
+      const reqBody = {
+        title: titleInput,
+        description: descriptionInput,
+        options: optionsArr,
+      };
+      setIsLoading(true);
+      try {
+        const response = await fetch(`http://${BASED_URL}/poll/create`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify(reqBody),
+        });
+        setIsLoading(false);
+        if (response.status > 399) {
+          if (response.status === 403) {
+            dispatch(authAction.logoutHandler());
+            navigate("../");
+          }
+          const responseMessage = await response.text();
+          if (responseMessage.includes("title")) {
+            setTitleHelperText("Title length should be between 3 and 20");
+            setIsTitleInputInValid(true);
+          }
+          if (responseMessage.includes("description")) {
+            setDescriptionHelperText("Description length should be at least 5");
+            setIsDescriptionInputInvalid(true);
+          }
+          throw new Error("Some thing went wrong");
+        }
+        const pollLink = await response.text();
+        dispatch(pollLinkAction.setPollLinkState("Poll successfully created"));
+        navigate(`../pollLink/${pollLink}`);
+      } catch (error) {
+        setIsLoading(false);
+        dispatch(
+          alertAction.showAlert({
+            message: error.message,
+            type: "error",
+          })
+        );
+      }
+    };
+    createPoll();
   };
 
   return (
@@ -66,8 +132,13 @@ const NewPollForm = () => {
       onSubmit={onFormSubmitHandler}
       className="p-6 pb-6 lg:pb-8 sm:p-8 border border-gray-300 rounded-lg"
     >
+      <Tooltip placement="top" title="Back to poll list">
+        <Link to="../pollList">
+          <ArrowBackIosIcon className="text-gray-500 absolute" />
+        </Link>
+      </Tooltip>
       <h2 className="text-2xl text-gray-600 text-center">Create poll</h2>
-      <div className="flex flex-col mt-6 lg:mt-8">
+      <div className="flex flex-col mt-6 lg:mt-10">
         <div>
           <TextField
             error={isTitleInputInValid}
@@ -75,7 +146,7 @@ const NewPollForm = () => {
             id="outlined-basic"
             label="Title"
             variant="outlined"
-            helperText={isTitleInputInValid ? "Can not be empty" : " "}
+            helperText={isTitleInputInValid ? titleHelperText : " "}
             value={titleInput}
             onChange={(e) => {
               setIsTitleInputInValid(false);
@@ -90,7 +161,7 @@ const NewPollForm = () => {
             id="outlined-basic"
             label="Description"
             variant="outlined"
-            helperText={isDescriptionInputInvalid ? "Can not be empty" : " "}
+            helperText={isDescriptionInputInvalid ? descriptionHelperText : " "}
             multiline
             rows={4}
             value={descriptionInput}
@@ -153,12 +224,15 @@ const NewPollForm = () => {
           &nbsp;
         </p>
         <div className="mt-5 lg:mt-6">
-          <Button className="w-full h-11" variant="contained" type="submit">
+          <LoadingButton
+            loading={isLoading}
+            className="w-full h-11"
+            variant="contained"
+            type="submit"
+          >
             Create
-          </Button>
+          </LoadingButton>
         </div>
-        <p className="mt-5 text-error-red hidden">This is status message ...</p>
-        &nbsp;
       </div>
     </form>
   );

@@ -2,15 +2,21 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BASED_URL } from "../../constants";
+import { useDispatch } from "react-redux";
+import { authAction } from "../../store/auth-slice";
 
 const SignInForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [userNameValue, setUserNameValue] = useState("");
   const [isUserNameInvalid, setIsUserNameInvalid] = useState(false);
   const [userNameErrorMessage, setUserNameErrorMessage] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [isPasswordInvalid, setIsPasswordInvalid] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [responseMessage, setResponseMessage] = useState("");
 
   const onFormSubmit = (event) => {
     event.preventDefault();
@@ -29,48 +35,39 @@ const SignInForm = () => {
       return;
     }
 
-    // const reqBody = {
-    //   title: "Breakfast",
-    //   description: "What should we eat for breakfast",
-    // };
+    const signIn = async () => {
+      try {
+        const response = await fetch(
+          `http://${BASED_URL}/user/signing?username=${userNameValue}&password=${passwordValue}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-    // const token =
-    //   "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBbmVzIiwiaWF0IjoxNjYwNTcyOTYzLCJleHAiOjE2NjA2NTkzNjN9.jdGplipKm1IeQpbFCgI4liL2bZeKUoVaVY-ty44BiZLvORr8c3FA4rgy7Q8XYcqJSHgVTBidbqh_a9KlmIhKsg";
+        if (response.status > 399) {
+          let x = await response.text();
+          console.log(x);
+          setUserNameErrorMessage("Incorrect username");
+          setPasswordErrorMessage("Incorrect password");
+          setIsUserNameInvalid(true);
+          setIsPasswordInvalid(true);
+          throw new Error("Username or password is incorrect");
+        }
 
-    // fetch(`http://localhost:8080/poll/edit/GI3oKI1kZj`, {
-    //   mode: "no-cors",
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: token + process.env.API_TOKEN,
-    //   },
-    //   body: JSON.stringify(reqBody),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
-
-    // fetch(`http://localhost:8080/poll/find-by-link/GI3oKI1kZj`)
-    //   .then((res) => res.json())
-    //   .then((data) => console.log(data));
-
-    // fetch(
-    //   `http://localhost:8080/user/signing?username=${userNameValue}&password=${passwordValue}`,
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   }
-    // )
-    //   .then((res) => res.json())
-    //   .then((data) => console.log(data));
-
-    // navigate("../pollList");
+        const data = await response.text();
+        dispatch(authAction.loginHandler(data));
+        setIsUserNameInvalid(false);
+        setIsPasswordInvalid(false);
+        setResponseMessage("");
+        navigate("../pollList");
+      } catch (err) {
+        setResponseMessage(err.message);
+      }
+    };
+    signIn();
   };
 
   return (
@@ -115,7 +112,10 @@ const SignInForm = () => {
             Sign in
           </Button>
         </div>
-        <p className="text-error-red mt-4"> &nbsp; </p>
+        <p className="text-error-red mt-4">
+          {responseMessage}
+          &nbsp;
+        </p>
       </div>
     </form>
   );
