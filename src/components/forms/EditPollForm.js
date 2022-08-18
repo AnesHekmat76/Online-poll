@@ -85,7 +85,7 @@ const EditPollForm = () => {
         const response = await fetch(
           `http://${BASED_URL}/poll/edit/${pollLink}`,
           {
-            method: "POST",
+            method: "PUT",
             headers: {
               "Content-Type": "application/json",
               Authorization: token,
@@ -196,7 +196,7 @@ const EditPollForm = () => {
             variant="contained"
             type="submit"
           >
-            Create
+            Edit
           </LoadingButton>
         </div>
         <p className="mt-5 text-error-red hidden">This is status message ...</p>

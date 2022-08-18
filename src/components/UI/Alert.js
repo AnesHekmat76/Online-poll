@@ -18,7 +18,7 @@ const BasicAlert = () => {
     return (
       <div className="w-80 fixed right-4 bottom-6 z-40 border border-gray-300 rounded-md overflow-hidden">
         <Alert
-          className=""
+          variant="filled"
           severity={alertType}
           onClose={() => {
             dispatch(alertAction.hideAlert());

@@ -15,7 +15,9 @@ const PollItem = ({
 }) => {
   const [shareLinkToolTipMsg, setShareLinkToolTipMsg] =
     useState("Copy poll link");
-  const { title, description, participants, link } = poll;
+  const { title, description, participants, link, createdAt } = poll;
+  const createdDate = createdAt.substring(0, 10);
+  const createdTime = createdAt.substring(11, 19);
 
   const onShareIconClick = () => {
     navigator.clipboard.writeText(`http://localhost:3000/pollDetails/${link}`);
@@ -26,7 +28,7 @@ const PollItem = ({
   };
 
   return (
-    <div className="border-b border-gray-300 py-3 lg:py-4 px-1">
+    <div className="border-b border-gray-300 py-2.5 lg:py-3 px-2">
       <div className="flex justify-between">
         <Link
           to={`../pollDetails/${link}`}
@@ -64,11 +66,18 @@ const PollItem = ({
         </div>
       </div>
 
-      <p className="mt-2 text-gray-500">{description} </p>
-      <div className="mt-2 flex items-center">
-        <PeopleIcon className="text-gray-500" />
-        <p className="ml-2 text-gray-500">
-          {participants ? participants.length : 0}
+      <p className="mt-2 md:mt-3 text-gray-500">{description} </p>
+      <div className="flex justify-between items-center mt-2 md:mt-3">
+        <div className="flex items-center">
+          <PeopleIcon className="text-gray-500" />
+          <p className="ml-2 text-gray-500">
+            {participants ? participants.length : 0}
+          </p>
+        </div>
+        <p className="text-gray-500 font-light text-xs mr-2">
+          {createdDate}
+          &nbsp;&nbsp;
+          {createdTime}
         </p>
       </div>
     </div>

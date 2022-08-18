@@ -139,6 +139,16 @@ const PollList = () => {
   if (responseMessage) {
     return (
       <div className="max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto mt-8 sm:mt-12 lg:mt-16 px-5">
+        {responseMessage === "No polls found" && (
+          <div>
+            <Link
+              to="/createPoll"
+              className="mb-2 text-gray-600 hover:text-black hover:border-gray-600 hover:bg-gray-50 transition-all border border-gray-300 px-4 py-2 rounded-lg"
+            >
+              Create poll
+            </Link>
+          </div>
+        )}
         <h2 className="text-center text-gray-600 text-xl mt-4">
           {responseMessage}
         </h2>
@@ -157,7 +167,7 @@ const PollList = () => {
             Create poll
           </Link>
         </div>
-        <div className="mt-4">{pollsList}</div>
+        <div className="mt-6">{pollsList}</div>
       </div>
 
       {isDeleteModalDisplayed && (
