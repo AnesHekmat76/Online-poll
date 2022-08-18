@@ -1,5 +1,4 @@
 import TextField from "@mui/material/TextField";
-import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import OptionCell from "./pollTable/OptionCell";
 import SelectedCell from "./pollTable/SelectedCell";
@@ -13,6 +12,7 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 import { useDispatch } from "react-redux/es/exports";
 import { alertAction } from "../../store/alert-slice";
 import { pollLinkAction } from "../../store/pollLink-slice";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const PollDetails = () => {
   const dispatch = useDispatch();
@@ -25,6 +25,7 @@ const PollDetails = () => {
   const [isSpinnerDisplayed, setIsSpinnerDisplayed] = useState(true);
   const [responseMessage, setResponseMessage] = useState("");
   const [fetchedPollDetails, setFetchedPollDetails] = useState(null);
+  const [sendingVoteIsLoading, setSendingVoteIsLoading] = useState(false);
 
   useEffect(() => {
     const getAllPolls = async () => {
@@ -91,6 +92,7 @@ const PollDetails = () => {
       const reqBody = {
         name: nameInputValue,
       };
+      setSendingVoteIsLoading(true);
       try {
         const response = await fetch(
           `http://${BASED_URL}/participant/create?selectedOptionsId=${selectedOptions.toString()}`,
@@ -102,6 +104,7 @@ const PollDetails = () => {
             body: JSON.stringify(reqBody),
           }
         );
+        setSendingVoteIsLoading(false);
         if (response.status > 399) {
           throw new Error("Some thing went wrong");
         }
@@ -110,6 +113,7 @@ const PollDetails = () => {
         );
         navigate(`../pollLink/${pollLink}`);
       } catch (error) {
+        setSendingVoteIsLoading(false);
         dispatch(
           alertAction.showAlert({
             message: error.message,
@@ -240,14 +244,15 @@ const PollDetails = () => {
             <tr>
               <td className="text-gray-700">
                 <div className="m-0.5 py-1 rounded-md">
-                  <Button
+                  <LoadingButton
+                    loading={sendingVoteIsLoading}
                     onClick={onSaveButtonClick}
                     type="button"
                     className="w-1/3 h-9"
                     variant="contained"
                   >
                     Save
-                  </Button>
+                  </LoadingButton>
                 </div>
               </td>
               {tableVoteNumberRow}

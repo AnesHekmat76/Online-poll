@@ -1,5 +1,4 @@
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { BASED_URL } from "../../constants";
@@ -11,6 +10,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import Tooltip from "@mui/material/Tooltip";
 import { useSelector } from "react-redux";
 import { authAction } from "../../store/auth-slice";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const EditPollForm = () => {
   const params = useParams();
@@ -26,10 +26,12 @@ const EditPollForm = () => {
   const [responseMessage, setResponseMessage] = useState("");
   const [titleHelperText, setTitleHelperText] = useState(" ");
   const [descriptionHelperText, setDescriptionHelperText] = useState(" ");
+  const [isLoading, setIsLoading] = useState(false);
   const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
     const getPollByLink = async () => {
+      setIsSpinnerDisplayed(true);
       try {
         const response = await fetch(
           `http://${BASED_URL}/poll/find-by-link/${pollLink}`,
@@ -48,6 +50,7 @@ const EditPollForm = () => {
         setTitleInput(data.title);
         setDescriptionInput(data.description);
       } catch (error) {
+        setIsSpinnerDisplayed(false);
         setResponseMessage(error.message);
       }
     };
@@ -77,7 +80,7 @@ const EditPollForm = () => {
         title: titleInput,
         description: descriptionInput,
       };
-
+      setIsLoading(true);
       try {
         const response = await fetch(
           `http://${BASED_URL}/poll/edit/${pollLink}`,
@@ -90,6 +93,7 @@ const EditPollForm = () => {
             body: JSON.stringify(reqBody),
           }
         );
+        setIsLoading(false);
 
         if (response.status > 399) {
           if (response.status === 403) {
@@ -118,6 +122,7 @@ const EditPollForm = () => {
         );
         navigate("/pollList");
       } catch (error) {
+        setIsLoading(false);
         dispatch(
           alertAction.showAlert({
             message: error.message,
@@ -185,9 +190,14 @@ const EditPollForm = () => {
           />
         </div>
         <div className="mt-5 lg:mt-6">
-          <Button className="w-full h-11" variant="contained" type="submit">
-            Edit
-          </Button>
+          <LoadingButton
+            loading={isLoading}
+            className="w-full h-11"
+            variant="contained"
+            type="submit"
+          >
+            Create
+          </LoadingButton>
         </div>
         <p className="mt-5 text-error-red hidden">This is status message ...</p>
         &nbsp;

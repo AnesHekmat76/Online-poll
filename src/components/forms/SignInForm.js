@@ -1,10 +1,10 @@
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASED_URL } from "../../constants";
 import { useDispatch } from "react-redux";
 import { authAction } from "../../store/auth-slice";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const SignInForm = () => {
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ const SignInForm = () => {
   const [isPasswordInvalid, setIsPasswordInvalid] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const onFormSubmit = (event) => {
     event.preventDefault();
@@ -36,6 +37,7 @@ const SignInForm = () => {
     }
 
     const signIn = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(
           `http://${BASED_URL}/user/signing?username=${userNameValue}&password=${passwordValue}`,
@@ -46,10 +48,8 @@ const SignInForm = () => {
             },
           }
         );
-
+        setIsLoading(false);
         if (response.status > 399) {
-          let x = await response.text();
-          console.log(x);
           setUserNameErrorMessage("Incorrect username");
           setPasswordErrorMessage("Incorrect password");
           setIsUserNameInvalid(true);
@@ -64,6 +64,7 @@ const SignInForm = () => {
         setResponseMessage("");
         navigate("../pollList");
       } catch (err) {
+        setIsLoading(false);
         setResponseMessage(err.message);
       }
     };
@@ -81,7 +82,6 @@ const SignInForm = () => {
           <TextField
             error={isUserNameInvalid}
             className="w-full"
-            id="outlined-basic"
             label="UserName"
             variant="outlined"
             helperText={isUserNameInvalid ? userNameErrorMessage : " "}
@@ -96,9 +96,9 @@ const SignInForm = () => {
           <TextField
             error={isPasswordInvalid}
             className="w-full"
-            id="outlined-basic"
             label="Password"
             variant="outlined"
+            type="password"
             helperText={isPasswordInvalid ? passwordErrorMessage : " "}
             value={passwordValue}
             onChange={(e) => {
@@ -108,9 +108,14 @@ const SignInForm = () => {
           />
         </div>
         <div className="mt-4 lg:mt-8">
-          <Button type="submit" className="w-full h-11" variant="contained">
-            Sign in
-          </Button>
+          <LoadingButton
+            loading={isLoading}
+            className="w-full h-11"
+            variant="contained"
+            type="submit"
+          >
+            Create
+          </LoadingButton>
         </div>
         <p className="text-error-red mt-4">
           {responseMessage}

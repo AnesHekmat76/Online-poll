@@ -3,9 +3,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import ShareIcon from "@mui/icons-material/Share";
 import { Link } from "react-router-dom";
-import { alertAction } from "../../store/alert-slice";
-import { useDispatch } from "react-redux";
 import Tooltip from "@mui/material/Tooltip";
+import { useState } from "react";
 
 const PollItem = ({
   showDeleteModal,
@@ -14,18 +13,16 @@ const PollItem = ({
   setSelectedPollForEdit,
   setSelectedPollForDelete,
 }) => {
+  const [shareLinkToolTipMsg, setShareLinkToolTipMsg] =
+    useState("Copy poll link");
   const { title, description, participants, link } = poll;
-
-  const dispatch = useDispatch();
 
   const onShareIconClick = () => {
     navigator.clipboard.writeText(`http://localhost:3000/pollDetails/${link}`);
-    dispatch(
-      alertAction.showAlert({
-        message: "Poll link copied to clipboard",
-        type: "success",
-      })
-    );
+    setShareLinkToolTipMsg("Copied!");
+    setTimeout(() => {
+      setShareLinkToolTipMsg("Copy poll link");
+    }, 2000);
   };
 
   return (
@@ -39,7 +36,7 @@ const PollItem = ({
         </Link>
         <div>
           <button onClick={onShareIconClick}>
-            <Tooltip placement="top" title="Copy poll link">
+            <Tooltip placement="top" title={shareLinkToolTipMsg}>
               <ShareIcon className="text-gray-500 hover:text-gray-600" />
             </Tooltip>
           </button>
