@@ -147,7 +147,7 @@ const EditPollForm = () => {
   return (
     <form
       onSubmit={onFormSubmitHandler}
-      className="p-6 pb-6 lg:pb-8 sm:p-8 border border-gray-300 rounded-lg"
+      className="px-5 py-6 lg:pb-8 sm:p-8 border border-gray-300 rounded-lg shadow-sm"
     >
       <Tooltip placement="top" title="Back to poll list">
         <Link to="../pollList">
@@ -199,8 +199,6 @@ const EditPollForm = () => {
             Edit
           </LoadingButton>
         </div>
-        <p className="mt-5 text-error-red hidden">This is status message ...</p>
-        &nbsp;
       </div>
     </form>
   );

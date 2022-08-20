@@ -5,6 +5,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import { Link } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const PollItem = ({
   showDeleteModal,
@@ -18,9 +19,9 @@ const PollItem = ({
   const { title, description, participants, link, createdAt } = poll;
   const createdDate = createdAt.substring(0, 10);
   const createdTime = createdAt.substring(11, 19);
+  const pollLink = `http://www.aneshekmatshoar.xyz/pollDetails/${link}`;
 
   const onShareIconClick = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/pollDetails/${link}`);
     setShareLinkToolTipMsg("Copied!");
     setTimeout(() => {
       setShareLinkToolTipMsg("Copy poll link");
@@ -37,17 +38,20 @@ const PollItem = ({
           {title}
         </Link>
         <div>
-          <button onClick={onShareIconClick}>
-            <Tooltip placement="top" title={shareLinkToolTipMsg}>
-              <ShareIcon className="text-gray-500 hover:text-gray-600" />
-            </Tooltip>
-          </button>
+          <CopyToClipboard text={pollLink}>
+            <button onClick={onShareIconClick}>
+              <Tooltip placement="top" title={shareLinkToolTipMsg}>
+                <ShareIcon className="text-gray-500 hover:text-gray-600" />
+              </Tooltip>
+            </button>
+          </CopyToClipboard>
+
           <button
             onClick={() => {
               setSelectedPollForEdit(link);
               showEditModal(link);
             }}
-            className="mx-3 lg:mx-5"
+            className="mx-4 lg:mx-5"
           >
             <Tooltip placement="top" title="Edit poll">
               <EditIcon className="text-gray-500 hover:text-gray-600" />

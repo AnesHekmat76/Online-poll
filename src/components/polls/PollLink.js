@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import { useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const PollLink = () => {
   const [copyLinkIconToolTipMsg, setCopyLinkIconToolTipMsg] =
@@ -14,7 +15,7 @@ const PollLink = () => {
   const message = useSelector((state) => state.pollLink.message);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const params = useParams();
-  const pollLink = `http://localhost:3000/pollDetails/${params.pollLink}`;
+  const pollLink = `http://www.aneshekmatshoar.xyz/pollDetails/${params.pollLink}`;
   const navigate = useNavigate();
 
   const onBackButtonClick = () => {
@@ -22,7 +23,6 @@ const PollLink = () => {
   };
 
   const onCopyButtonClick = () => {
-    navigator.clipboard.writeText(pollLink);
     setCopyLinkIconToolTipMsg("Copied!");
     setTimeout(() => {
       setCopyLinkIconToolTipMsg("Copy link");
@@ -48,11 +48,13 @@ const PollLink = () => {
             aria-readonly
           />
           <div className="flex justify-center items-center absolute top-3.5 w-10 right-2 bg-white z-10">
-            <button onClick={onCopyButtonClick}>
-              <Tooltip placement="top" title={copyLinkIconToolTipMsg}>
-                <ContentCopyIcon className="text-gray-600 hover:text-black transition-all" />
-              </Tooltip>
-            </button>
+            <CopyToClipboard text={pollLink}>
+              <button onClick={onCopyButtonClick}>
+                <Tooltip placement="top" title={copyLinkIconToolTipMsg}>
+                  <ContentCopyIcon className="text-gray-600 hover:text-black transition-all" />
+                </Tooltip>
+              </button>
+            </CopyToClipboard>
           </div>
         </div>
       </div>

@@ -6,14 +6,12 @@ const LandingPage = () => {
   let navigate = useNavigate();
   return (
     <div className="max-w-lg sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto mt-8 sm:mt-12 md:mt-16 lg:mt-24">
-      <div className="px-6 sm:px-8 flex flex-col md:flex-row">
+      <div className="px-5 sm:px-8 flex flex-col md:flex-row">
         <div className="md:w-7/12 md:px-10 lg:px-14 md:pt-12 lg:pt-16">
           <h1 className="text-2xl sm:text-3xl font-semibold md:text-left lg:text-4xl">
             Create online poll easily
           </h1>
           <p className="mt-4 sm:mt-6 text-gray-500 leading-6 font-normal lg:w-9/12">
-            {/* Description about this Feature lorem something should placed here In
-            publishing and graphic design, Lorem ipsum is a placeholder text */}
             Easily create, manage and share online polls and surveys, and
             analyze responses in real-time.
             <br></br>

@@ -16,7 +16,7 @@ const App = () => {
   return (
     <>
       <Navigation />
-      <main className="min-h-40">
+      <main>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signIn" element={<SignInPage />} />

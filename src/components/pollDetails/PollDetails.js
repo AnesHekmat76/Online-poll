@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux/es/exports";
 import { alertAction } from "../../store/alert-slice";
 import { pollLinkAction } from "../../store/pollLink-slice";
 import LoadingButton from "@mui/lab/LoadingButton";
+import "./PollDetails.css";
 
 const PollDetails = () => {
   const dispatch = useDispatch();
@@ -215,7 +216,7 @@ const PollDetails = () => {
         <table className="mx-auto">
           <thead>
             <tr>
-              <th className="p-4 w-48"></th>
+              <th className="p-4 w-40 min-w-34"></th>
               {tableHeader}
             </tr>
           </thead>

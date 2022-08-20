@@ -74,7 +74,7 @@ const SignInForm = () => {
   return (
     <form
       onSubmit={onFormSubmit}
-      className="p-6 lg:pb-4 sm:p-8 border border-gray-300 rounded-lg"
+      className="px-5 py-6 lg:pb-4 sm:p-8 border border-gray-300 rounded-lg shadow-sm"
     >
       <h2 className="text-2xl text-gray-600 text-center">Sign-in</h2>
       <div className="flex flex-col mt-6 lg:mt-8">
@@ -114,7 +114,7 @@ const SignInForm = () => {
             variant="contained"
             type="submit"
           >
-            Create
+            Sing in
           </LoadingButton>
         </div>
         <p className="text-error-red mt-4">

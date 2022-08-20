@@ -167,7 +167,7 @@ const PollList = () => {
             Create poll
           </Link>
         </div>
-        <div className="mt-6">{pollsList}</div>
+        <div className="mt-7">{pollsList}</div>
       </div>
 
       {isDeleteModalDisplayed && (
