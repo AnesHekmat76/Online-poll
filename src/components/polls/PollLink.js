@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { alertAction } from "../../store/alert-slice";
+import { useDispatch } from "react-redux/es/exports";
 
 const PollLink = () => {
   const [copyLinkIconToolTipMsg, setCopyLinkIconToolTipMsg] =
@@ -15,6 +17,7 @@ const PollLink = () => {
   const message = useSelector((state) => state.pollLink.message);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const params = useParams();
+  const dispatch = useDispatch();
   const pollLink = `http://www.aneshekmatshoar.xyz/pollDetails/${params.pollLink}`;
   const navigate = useNavigate();
 
@@ -27,16 +30,22 @@ const PollLink = () => {
     setTimeout(() => {
       setCopyLinkIconToolTipMsg("Copy link");
     }, 2000);
+    dispatch(
+      alertAction.showAlert({
+        message: "Poll link copied",
+        type: "success",
+      })
+    );
   };
 
   return (
-    <div className="p-6 sm:p-8 border border-gray-300 rounded-lg">
+    <div className="py-6 px-4 sm:p-8 border border-gray-300 rounded-lg shadow-sm">
       <Tooltip placement="top" title="Back">
         <button onClick={onBackButtonClick} className="absolute">
           <ArrowBackIosIcon className="text-gray-500 absolute" />
         </button>
       </Tooltip>
-      <p className="text-center text-xl text-green-600">{message}</p>
+      <p className="mx-7 text-center text-xl text-green-600">{message}</p>
       <h2 className="text-xl text-gray-600 text-center mt-6">Poll Link</h2>
       <div className="mt-4 lg:mt-6 flex items-center justify-between ">
         <div className="w-full relative">

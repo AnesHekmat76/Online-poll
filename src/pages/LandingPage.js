@@ -1,9 +1,18 @@
 import Button from "@mui/material/Button";
 import mainImg from "../assets/main2.webp";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const LandingPage = () => {
   let navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const onMainButtonClick = () => {
+    if (isLoggedIn) {
+      navigate("/pollList");
+    } else {
+      navigate("/signIn");
+    }
+  };
   return (
     <div className="max-w-lg sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto mt-8 sm:mt-12 md:mt-16 lg:mt-24">
       <div className="px-5 sm:px-8 flex flex-col md:flex-row">
@@ -21,11 +30,9 @@ const LandingPage = () => {
             <Button
               className="w-full lg:h-11"
               variant="contained"
-              onClick={() => {
-                navigate("/signIn");
-              }}
+              onClick={onMainButtonClick}
             >
-              Sign in
+              {isLoggedIn ? "Manage polls" : "Sign in"}
             </Button>
           </div>
         </div>

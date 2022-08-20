@@ -6,13 +6,11 @@ import { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const Footer = () => {
-  const [gmailLinkToolTipMessage, setGmailLinkToolTipMessage] =
-    useState("Copy Gmail address");
-
-  const copyGmailLink = () => {
-    setGmailLinkToolTipMessage("Copied!");
+  const [isEmailToolTipDisplayed, setIsEmailToolTipDisplayed] = useState(false);
+  const displayEmailToolTip = () => {
+    setIsEmailToolTipDisplayed(true);
     setTimeout(() => {
-      setGmailLinkToolTipMessage("Copy Gmail address");
+      setIsEmailToolTipDisplayed(false);
     }, 2000);
   };
 
@@ -23,11 +21,18 @@ const Footer = () => {
       </h3>
       <div className="flex justify-center mt-2">
         <CopyToClipboard text="anes.hekmatshoar@gmail.com">
-          <Tooltip placement="top" title={gmailLinkToolTipMessage}>
-            <button onClick={copyGmailLink} href="https://github.com/">
+          <button onClick={displayEmailToolTip} href="https://github.com/">
+            <Tooltip
+              placement="top"
+              title="Email address copied"
+              disableFocusListener
+              disableHoverListener
+              disableTouchListener
+              open={isEmailToolTipDisplayed}
+            >
               <EmailIcon className="text-gray-500" />
-            </button>
-          </Tooltip>
+            </Tooltip>
+          </button>
         </CopyToClipboard>
         <Tooltip placement="top" title="Git Hub">
           <a target="blank" href="https://github.com/AnesHekmat76">

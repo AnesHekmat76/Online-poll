@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useDispatch } from "react-redux/es/exports";
+import { alertAction } from "../../store/alert-slice";
 
 const PollItem = ({
   showDeleteModal,
@@ -16,6 +18,7 @@ const PollItem = ({
 }) => {
   const [shareLinkToolTipMsg, setShareLinkToolTipMsg] =
     useState("Copy poll link");
+  const dispatch = useDispatch();
   const { title, description, participants, link, createdAt } = poll;
   const createdDate = createdAt.substring(0, 10);
   const createdTime = createdAt.substring(11, 19);
@@ -26,6 +29,12 @@ const PollItem = ({
     setTimeout(() => {
       setShareLinkToolTipMsg("Copy poll link");
     }, 2000);
+    dispatch(
+      alertAction.showAlert({
+        message: "Poll link copied",
+        type: "success",
+      })
+    );
   };
 
   return (
