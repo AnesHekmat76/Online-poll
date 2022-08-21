@@ -39,13 +39,13 @@ const PollLink = () => {
   };
 
   return (
-    <div className="py-6 px-4 sm:p-8 border border-gray-300 rounded-lg shadow-sm">
+    <div className="py-6 px-4 md:p-8 border border-gray-300 rounded-lg shadow-sm">
       <Tooltip placement="top" title="Back">
         <button onClick={onBackButtonClick} className="absolute">
           <ArrowBackIosIcon className="text-gray-500 absolute" />
         </button>
       </Tooltip>
-      <p className="mx-7 text-center text-xl text-green-600">{message}</p>
+      <p className="mx-9 text-center text-xl text-green-600">{message}</p>
       <h2 className="text-xl text-gray-600 text-center mt-6">Poll Link</h2>
       <div className="mt-4 lg:mt-6 flex items-center justify-between ">
         <div className="w-full relative">

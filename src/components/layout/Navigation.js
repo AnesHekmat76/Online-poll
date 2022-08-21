@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { authAction } from "../../store/auth-slice";
 import { useNavigate } from "react-router-dom";
+import "./Navigation.css";
 
 const Navigation = () => {
   const [navIsOpen, setNavIsOpen] = useState(false);
@@ -50,7 +51,7 @@ const Navigation = () => {
                 className="ml-14 text-gray-600 hover:text-black"
                 href="123"
               >
-                Poll list
+                Polls list
               </Link>
               <Link
                 to="/createPoll"
@@ -91,7 +92,7 @@ const Navigation = () => {
         </div>
       </nav>
       {navIsOpen && (
-        <div className="w-full h-screen sticky z-20 bg-white top-16 left-0 md:hidden pt-16">
+        <div className="w-full h-92vh sticky z-20 bg-white top-14 left-0 md:hidden pt-16">
           <div className="flex flex-col items-center h-full z-20">
             {isLoggedIn && (
               <>
@@ -107,7 +108,7 @@ const Navigation = () => {
                   to="/pollList"
                   className="m-7 text-gray-500 sm:text-lg"
                 >
-                  Poll list
+                  Polls list
                 </Link>
                 <Link
                   onClick={onLinksClick}
