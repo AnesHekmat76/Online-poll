@@ -203,8 +203,8 @@ const PollDetails = () => {
   });
 
   return (
-    <div className="max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto mt-8 sm:mt-12 lg:mt-16 px-5 overflow-scroll sm:overflow-auto">
-      <div>
+    <div className="max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto mt-8 sm:mt-12 lg:mt-16 px-4">
+      <div className="px-2">
         <h2 className="text-4xl text-gray-700 font-thin">
           {fetchedPollDetails.title}
         </h2>
@@ -212,7 +212,7 @@ const PollDetails = () => {
           {fetchedPollDetails.description}
         </p>
       </div>
-      <div className="mt-6">
+      <div className="mt-6 overflow-scroll sm:overflow-auto">
         <table className="mx-auto">
           <thead>
             <tr>
