@@ -216,7 +216,7 @@ const PollDetails = () => {
         <table className="mx-auto">
           <thead>
             <tr>
-              <th className="p-4 w-40 min-w-42"></th>
+              <th className="p-4 w-44 min-w-44"></th>
               {tableHeader}
             </tr>
           </thead>
