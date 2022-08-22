@@ -29,7 +29,7 @@ const PollDetails = () => {
   const [sendingVoteIsLoading, setSendingVoteIsLoading] = useState(false);
 
   useEffect(() => {
-    const getAllPolls = async () => {
+    const getPollByLink = async () => {
       setIsSpinnerDisplayed(true);
       try {
         const response = await fetch(
@@ -53,7 +53,7 @@ const PollDetails = () => {
         setResponseMessage(err.message);
       }
     };
-    getAllPolls();
+    getPollByLink();
   }, [params]);
 
   const onCheckBoxClick = (event) => {
@@ -62,7 +62,6 @@ const PollDetails = () => {
     setSelectedOptions((state) => {
       let updatedState = [];
       if (checkBoxValue) {
-        if (state.includes(selectedOptionId)) return state;
         return [...state, selectedOptionId];
       } else {
         updatedState = state.filter((optionId) => {

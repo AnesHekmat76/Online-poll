@@ -17,7 +17,7 @@ const Footer = () => {
   return (
     <footer className="mt-12 md:mt-16 lg:mt-20 bg-gray-100 py-3">
       <h3 className="text-lg text-center text-gray-500 font-normal">
-        Folow me
+        Follow me
       </h3>
       <div className="flex justify-center mt-2">
         <CopyToClipboard text="anes.hekmatshoar@gmail.com">

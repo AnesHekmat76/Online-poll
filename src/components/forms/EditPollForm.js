@@ -113,10 +113,10 @@ const EditPollForm = () => {
           }
           throw new Error("Some thing went wrong");
         }
-        const reponseMessage = await response.text();
+        const responseMessage = await response.text();
         dispatch(
           alertAction.showAlert({
-            message: reponseMessage,
+            message: responseMessage,
             type: "success",
           })
         );
