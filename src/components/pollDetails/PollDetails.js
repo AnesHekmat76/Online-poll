@@ -84,8 +84,8 @@ const PollDetails = () => {
             type: "error",
           })
         );
-        return;
       }
+      return;
     }
 
     const registerVote = async () => {

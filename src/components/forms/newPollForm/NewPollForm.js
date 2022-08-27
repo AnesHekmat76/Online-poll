@@ -132,7 +132,7 @@ const NewPollForm = () => {
   return (
     <form
       onSubmit={onFormSubmitHandler}
-      className="px-5 py-6 lg:pb-8 sm:p-8 border border-gray-300 rounded-lg shadow-sm"
+      className="px-1 py-6 lg:pb-8 sm:p-8 sm:border sm:border-gray-300 rounded-lg sm:shadow-sm"
     >
       <Tooltip placement="top" title="Back to poll list">
         <Link to="../pollList">

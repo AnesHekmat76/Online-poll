@@ -74,7 +74,7 @@ const SignInForm = () => {
   return (
     <form
       onSubmit={onFormSubmit}
-      className="px-5 py-6 lg:pb-4 sm:p-8 border border-gray-300 rounded-lg shadow-sm"
+      className="px-1 sm:p-8 py-6 lg:pb-4 sm:border sm:border-gray-300 rounded-lg sm:shadow-sm"
     >
       <h2 className="text-2xl text-gray-600 text-center">Sign-in</h2>
       <div className="flex flex-col mt-6 lg:mt-8">
