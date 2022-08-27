@@ -109,7 +109,7 @@ const PollDetails = () => {
           throw new Error("Some thing went wrong");
         }
         dispatch(
-          pollLinkAction.setPollLinkState("The vote successfully registered")
+          pollLinkAction.showPollLinkPage("The vote successfully registered")
         );
         navigate(`../pollLink/${pollLink}`);
       } catch (error) {

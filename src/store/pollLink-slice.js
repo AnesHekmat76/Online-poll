@@ -2,14 +2,19 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   message: "",
+  isDisplayed: false,
 };
 
 const pollLinkState = createSlice({
   name: "pollLink",
   initialState,
   reducers: {
-    setPollLinkState(state, action) {
+    showPollLinkPage(state, action) {
       state.message = action.payload;
+      state.isDisplayed = true;
+    },
+    hidePollLinkPage() {
+      return initialState;
     },
   },
 });

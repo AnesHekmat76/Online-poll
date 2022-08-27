@@ -113,7 +113,7 @@ const NewPollForm = () => {
         }
         const pollLink = await response.text();
         dispatch(
-          pollLinkAction.setPollLinkState("The poll successfully created")
+          pollLinkAction.showPollLinkPage("The poll successfully created")
         );
         navigate(`../pollLink/${pollLink}`);
       } catch (error) {
